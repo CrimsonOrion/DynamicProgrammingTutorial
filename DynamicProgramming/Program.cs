@@ -6,7 +6,8 @@ public class Program
     {
         //ShowFibonacciResults();
         //ShowGridTraveler();
-        ShowCanSum();
+        //ShowCanSum();
+        ShowHowSum();
 
         Console.WriteLine("Done.");
         Console.ReadKey();
@@ -57,5 +58,23 @@ public class Program
         };
 
         canSum.Calculate();
+    }
+
+    private static void ShowHowSum()
+    {
+        List<SumNumbers> numbers = new()
+        {
+            new(7, new int[] { 2, 3 }),
+            new(7, new int[] { 5, 3, 4, 7 }),
+            new(7, new int[] { 2, 4 }),
+            new(8, new int[] { 2, 3, 5 }),
+            new(300, new int[] { 7, 14 })
+        };
+        HowSumProcessor howSum = new()
+        {
+            SumNumbers = numbers
+        };
+
+        howSum.Calculate();
     }
 }
