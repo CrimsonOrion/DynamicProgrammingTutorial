@@ -13,7 +13,8 @@ public class Program
         //ShowHowSum();
         //ShowBestSum();
 
-        ShowCanConstruct();
+        //ShowCanConstruct();
+        ShowCountConstruct();
 
         Console.WriteLine("Done.");
         Console.ReadKey();
@@ -110,11 +111,29 @@ public class Program
             new("enterapotentpot", new[] { "a", "p", "ent", "enter", "ot", "o", "t" }),
             new("eeeeeeeeeeeeeeeeeeeeeeeeeef", new[] { "e", "ee", "eee", "eeee", "eeeee", "eeeeee" })
         };
-        CanConstructProcessor canSum = new()
+        CanConstructProcessor canConstruct = new()
         {
             ConstructStrings = strings
         };
 
-        canSum.Calculate();
+        canConstruct.Calculate();
+    }
+
+    private static void ShowCountConstruct()
+    {
+        List<ConstructString> strings = new()
+        {
+            new("purple", new[] { "purp", "p", "ur", "le", "purpl" }),
+            new("abcdef", new[] { "ab", "abc", "cd", "def", "abcd" }),
+            new("skateboard", new[] { "bo", "rd", "ate", "t", "ska", "sk", "boar" }),
+            new("enterapotentpot", new[] { "a", "p", "ent", "enter", "ot", "o", "t" }),
+            new("eeeeeeeeeeeeeeeeeeeeeeeeeef", new[] { "e", "ee", "eee", "eeee", "eeeee", "eeeeee" })
+        };
+        CountConstructProcessor countConstruct = new()
+        {
+            ConstructStrings = strings
+        };
+
+        countConstruct.Calculate();
     }
 }

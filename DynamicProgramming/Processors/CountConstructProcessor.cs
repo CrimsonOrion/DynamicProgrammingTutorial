@@ -1,9 +1,14 @@
 ﻿using DynamicProgramming.Models;
 
+using System;
+using System.Collections.Generic;
 using System.Diagnostics;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
 namespace DynamicProgramming.Processors;
-public class CanConstructProcessor
+public class CountConstructProcessor
 {
     private static int _steps = 0;
     private static int _stepsMemo = 0;
@@ -17,42 +22,41 @@ public class CanConstructProcessor
             Console.WriteLine($"Target String: {s.TargetString}");
             Stopwatch stopwatchMemo = new();
             stopwatchMemo.Start();
-            var canConstructMemo = CanConstructMemo(s, new());
-            Console.WriteLine($"Memo Answer: {canConstructMemo}; Steps: {_stepsMemo}; Time: {stopwatchMemo.ElapsedMilliseconds}ms");
+            var countConstructMemo = CountConstructMemo(s, new());
+            Console.WriteLine($"Memo Answer: {countConstructMemo}; Steps: {_stepsMemo}; Time: {stopwatchMemo.ElapsedMilliseconds}ms");
             stopwatchMemo.Stop();
             Stopwatch stopwatch = new();
             stopwatch.Start();
-            var canConstruct = CanConstruct(s);
-            Console.WriteLine($"Non Answer: {canConstruct}; Steps: {_steps}; Time: {stopwatch.ElapsedMilliseconds}ms");
+            var countConstruct = CountConstruct(s);
+            Console.WriteLine($"Non Answer: {countConstruct}; Steps: {_steps}; Time: {stopwatch.ElapsedMilliseconds}ms");
             stopwatch.Stop();
             _steps = _stepsMemo = 0;
         }
     }
 
-    private static bool CanConstruct(ConstructString s)
+    private static int CountConstruct(ConstructString s)
     {
         if (s.TargetString == string.Empty)
         {
-            return true;
+            return 1;
         }
         _steps++;
+
+        var totalCount = 0;
+
         foreach (var word in s.WordBank)
         {
-
             if (s.TargetString.IndexOf(word) == 0)
             {
                 var suffix = s.TargetString[word.Length..];
-                if (CanConstruct(new(suffix, s.WordBank)))
-                {
-                    return true;
-                }
+                totalCount += CountConstruct(new(suffix, s.WordBank));
             }
         }
 
-        return false;
+        return totalCount;
     }
 
-    private static bool CanConstructMemo(ConstructString s, Dictionary<string, bool> memo)
+    private static int CountConstructMemo(ConstructString s, Dictionary<string, int> memo)
     {
         memo ??= new();
         if (memo.ContainsKey(s.TargetString))
@@ -62,24 +66,23 @@ public class CanConstructProcessor
 
         if (s.TargetString == string.Empty)
         {
-            return true;
+            return 1;
         }
         _stepsMemo++;
+
+        var totalCount = 0;
+
         foreach (var word in s.WordBank)
         {
 
             if (s.TargetString.IndexOf(word) == 0)
             {
                 var suffix = s.TargetString[word.Length..];
-                if (CanConstructMemo(new(suffix, s.WordBank), memo))
-                {
-                    memo[s.TargetString] = true;
-                    return true;
-                }
+                totalCount += CountConstructMemo(new(suffix, s.WordBank), memo);
             }
         }
 
-        memo[s.TargetString] = false;
-        return false;
+        memo[s.TargetString] = totalCount;
+        return totalCount;
     }
 }
