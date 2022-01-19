@@ -4,10 +4,11 @@ public class Program
 {
     private static void Main(string[] args)
     {
-        //ShowFibonacciResults();
+        ShowFibonacciResults();
         //ShowGridTraveler();
         //ShowCanSum();
-        ShowHowSum();
+        //ShowHowSum();
+        //howBestSum();
 
         Console.WriteLine("Done.");
         Console.ReadKey();
@@ -15,7 +16,7 @@ public class Program
 
     private static void ShowFibonacciResults()
     {
-        List<int> numbers = new() { 25, 36, 47, 50, 19, 40 };
+        List<int> numbers = new() { 6, 7, 8, 50 };
         FibonacciProcessor fib = new()
         {
             Numbers = numbers
@@ -76,5 +77,22 @@ public class Program
         };
 
         howSum.Calculate();
+    }
+
+    static void ShowBestSum()
+    {
+        List<SumNumbers> numbers = new()
+        {
+            new(7, new int[] { 5, 3, 4, 7 }),
+            new(8, new int[] { 2, 3, 5 }),
+            new(8, new int[] { 1, 4, 5 }),
+            new(100, new int[] { 1, 2, 5, 25 })
+        };
+        BestSumProcessor bestSum = new()
+        {
+            SumNumbers = numbers
+        };
+
+        bestSum.Calculate();
     }
 }

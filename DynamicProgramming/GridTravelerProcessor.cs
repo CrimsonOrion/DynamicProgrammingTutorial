@@ -3,7 +3,6 @@
 namespace DynamicProgramming;
 public class GridTravelerProcessor
 {
-    private static readonly Dictionary<string, long> _memo = new();
     private static int _steps1 = 0;
     private static int _steps2 = 0;
 
@@ -11,11 +10,12 @@ public class GridTravelerProcessor
 
     public void Calculate()
     {
-        foreach (Grid? n in Grids)
+        foreach (Grid n in Grids)
         {
+            Console.WriteLine($"Target Grid: {n.X}, {n.Y}");
             Stopwatch stopwatch2 = new();
             stopwatch2.Start();
-            var gridTraveler2 = Travel2(n);
+            var gridTraveler2 = Travel2(n, new());
             stopwatch2.Stop();
             Console.WriteLine($"Memo Answer: {gridTraveler2}; Steps: {_steps2}; Time: {stopwatch2.ElapsedMilliseconds}ms");
             Stopwatch stopwatch1 = new();
@@ -43,10 +43,9 @@ public class GridTravelerProcessor
         return Travel(new(grid.X - 1, grid.Y)) + Travel(new(grid.X, grid.Y - 1));
     }
 
-    private static long Travel2(Grid grid)
+    private static long Travel2(Grid grid, Dictionary<string, long> memo)
     {
         var key = $"{grid.X},{grid.Y}";
-        _steps2++;
         if (grid.X == 1 && grid.Y == 1)
         {
             return 1;
@@ -57,12 +56,13 @@ public class GridTravelerProcessor
             return 0;
         }
 
-        if (!_memo.ContainsKey(key))
+        if (!memo.ContainsKey(key))
         {
-            _memo[key] = Travel2(new(grid.X - 1, grid.Y)) + Travel2(new(grid.X, grid.Y - 1));
+            _steps2++;
+            memo[key] = Travel2(new(grid.X - 1, grid.Y), memo) + Travel2(new(grid.X, grid.Y - 1), memo);
         }
 
-        return _memo[key];
+        return memo[key];
     }
 }
 

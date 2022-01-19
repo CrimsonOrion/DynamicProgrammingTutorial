@@ -3,7 +3,6 @@
 namespace DynamicProgramming;
 public class CanSumProcessor
 {
-    private static Dictionary<long, bool> _memo = new();
     private static int _steps1 = 0;
     private static int _steps2 = 0;
 
@@ -11,12 +10,12 @@ public class CanSumProcessor
 
     public void Calculate()
     {
-        foreach (SumNumbers? n in SumNumbers)
+        foreach (SumNumbers n in SumNumbers)
         {
-            _memo = new();
+            Console.WriteLine($"Target Sum: {n.TargetSum}");
             Stopwatch stopwatch2 = new();
             stopwatch2.Start();
-            var canSum2 = CanSum2(n);
+            var canSum2 = CanSum2(n, new());
             stopwatch2.Stop();
             Console.WriteLine($"Memo Answer: {canSum2}; Steps: {_steps2}; Time: {stopwatch2.ElapsedMilliseconds}ms");
             Stopwatch stopwatch1 = new();
@@ -30,7 +29,6 @@ public class CanSumProcessor
 
     private static bool CanSum(SumNumbers n)
     {
-        _steps1++;
         if (n.TargetSum == 0)
         {
             return true;
@@ -44,6 +42,7 @@ public class CanSumProcessor
         foreach (var num in n.Numbers)
         {
             var remainder = n.TargetSum - num;
+            _steps1++;
             if (CanSum(new(remainder, n.Numbers)))
             {
                 return true;
@@ -52,12 +51,11 @@ public class CanSumProcessor
         return false;
     }
 
-    private static bool CanSum2(SumNumbers n)
+    private static bool CanSum2(SumNumbers n, Dictionary<long, bool> memo)
     {
-        _steps2++;
-        if (_memo.ContainsKey(n.TargetSum))
+        if (memo.ContainsKey(n.TargetSum))
         {
-            return _memo[n.TargetSum];
+            return memo[n.TargetSum];
         }
 
         if (n.TargetSum == 0)
@@ -73,13 +71,14 @@ public class CanSumProcessor
         foreach (var num in n.Numbers)
         {
             var remainder = n.TargetSum - num;
-            if (CanSum2(new(remainder, n.Numbers)))
+            _steps2++;
+            if (CanSum2(new(remainder, n.Numbers), memo))
             {
-                _memo[n.TargetSum] = true;
+                memo[n.TargetSum] = true;
                 return true;
             }
         }
-        _memo[n.TargetSum] = false;
+        memo[n.TargetSum] = false;
         return false;
     }
 }

@@ -3,7 +3,6 @@
 namespace DynamicProgramming;
 public class FibonacciProcessor
 {
-    private static readonly Dictionary<int, long> _memo = new();
     private static int _steps1 = 0;
     private static int _steps2 = 0;
 
@@ -13,9 +12,10 @@ public class FibonacciProcessor
     {
         foreach (var n in Numbers)
         {
+            Console.WriteLine($"Target Number: {n}");
             Stopwatch stopwatch2 = new();
             stopwatch2.Start();
-            var fib2 = Fib2(n);
+            var fib2 = Fib2(n, new());
             stopwatch2.Stop();
             Console.WriteLine($"Memo Answer: {fib2}; Steps: {_steps2}; Time: {stopwatch2.ElapsedMilliseconds}ms");
             Stopwatch stopwatch1 = new();
@@ -29,28 +29,28 @@ public class FibonacciProcessor
 
     private static long Fib(int n)
     {
-        _steps1 += 1;
         if (n <= 2)
         {
             return 1;
         }
 
+        _steps1 += 1;
         return Fib(n - 1) + Fib(n - 2);
     }
 
-    private static long Fib2(int n)
+    private static long Fib2(int n, Dictionary<int, long> memo)
     {
-        _steps2++;
         if (n <= 2)
         {
             return 1;
         }
 
-        if (!_memo.ContainsKey(n))
+        if (!memo.ContainsKey(n))
         {
-            _memo[n] = Fib2(n - 1) + Fib2(n - 2);
+            _steps2++;
+            memo[n] = Fib2(n - 1, memo) + Fib2(n - 2, memo);
         }
 
-        return _memo[n];
+        return memo[n];
     }
 }

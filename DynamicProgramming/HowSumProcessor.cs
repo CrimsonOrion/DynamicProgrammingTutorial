@@ -2,8 +2,7 @@
 
 namespace DynamicProgramming;
 public class HowSumProcessor
-{
-    private static Dictionary<long, List<int>?> _memo = new();
+{   
     private static int _steps1 = 0;
     private static int _steps2 = 0;
 
@@ -13,10 +12,10 @@ public class HowSumProcessor
     {
         foreach (SumNumbers n in SumNumbers)
         {
-            _memo = new();
+            Console.WriteLine($"Target Sum: {n.TargetSum}");
             Stopwatch stopwatch2 = new();
             stopwatch2.Start();
-            var howSum2 = HowSum2(n);
+            var howSum2 = HowSum2(n, new());
             stopwatch2.Stop();
             var arrayString = howSum2 is not null && howSum2.Any() ? $"[{string.Join(',', howSum2)}]" : "null";
             Console.WriteLine($"Memo Answer: {arrayString}; Steps: {_steps2}; Time: {stopwatch2.ElapsedMilliseconds}ms");
@@ -32,7 +31,6 @@ public class HowSumProcessor
 
     private static List<int>? HowSum(SumNumbers n)
     {
-        _steps1++;
         if (n.TargetSum == 0)
         {
             return new();
@@ -46,6 +44,7 @@ public class HowSumProcessor
         foreach (var num in n.Numbers)
         {
             var remainder = n.TargetSum - num;
+            _steps1++;
             var remainderResult = HowSum(new(remainder, n.Numbers));
             if (remainderResult is not null)
             {
@@ -57,12 +56,12 @@ public class HowSumProcessor
         return null;
     }
 
-    private static List<int>? HowSum2(SumNumbers n)
+    private static List<int>? HowSum2(SumNumbers n, Dictionary<long, List<int>?> memo)
     {
-        _steps2++;
-        if (_memo.ContainsKey(n.TargetSum))
+        
+        if (memo.ContainsKey(n.TargetSum))
         {
-            return _memo[n.TargetSum];
+            return memo[n.TargetSum];
         }
 
         if (n.TargetSum == 0)
@@ -78,16 +77,17 @@ public class HowSumProcessor
         foreach (var num in n.Numbers)
         {
             var remainder = n.TargetSum - num;
-            var remainderResult = HowSum2(new(remainder, n.Numbers));
+            _steps2++;
+            var remainderResult = HowSum2(new(remainder, n.Numbers), memo);
             if (remainderResult is not null)
             {
                 remainderResult.Add(num);
-                _memo[n.TargetSum] = remainderResult;
+                memo[n.TargetSum] = remainderResult;
                 return remainderResult;
             }
         }
 
-        _memo[n.TargetSum] = null;
+        memo[n.TargetSum] = null;
         return null;
     }
 }
