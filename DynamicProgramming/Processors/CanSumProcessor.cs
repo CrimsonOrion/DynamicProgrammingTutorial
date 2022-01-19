@@ -1,6 +1,8 @@
-﻿using System.Diagnostics;
+﻿using DynamicProgramming.Models;
 
-namespace DynamicProgramming;
+using System.Diagnostics;
+
+namespace DynamicProgramming.Processors;
 public class CanSumProcessor
 {
     private static int _steps1 = 0;
@@ -80,17 +82,5 @@ public class CanSumProcessor
         }
         memo[n.TargetSum] = false;
         return false;
-    }
-}
-
-public class SumNumbers
-{
-    public int TargetSum { get; set; }
-    public int[] Numbers { get; set; } = Array.Empty<int>();
-
-    public SumNumbers(int targetSum, int[] numbers)
-    {
-        TargetSum = targetSum;
-        Numbers = numbers;
     }
 }

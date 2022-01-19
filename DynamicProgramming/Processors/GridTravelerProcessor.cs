@@ -1,6 +1,7 @@
-﻿using System.Diagnostics;
+﻿
+using System.Diagnostics;
 
-namespace DynamicProgramming;
+namespace DynamicProgramming.Processors;
 public class GridTravelerProcessor
 {
     private static int _steps1 = 0;

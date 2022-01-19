@@ -1,14 +1,19 @@
 ﻿// memoization
+using DynamicProgramming.Models;
+using DynamicProgramming.Processors;
+
 namespace DynamicProgramming;
 public class Program
 {
     private static void Main(string[] args)
     {
-        ShowFibonacciResults();
+        //ShowFibonacciResults();
         //ShowGridTraveler();
         //ShowCanSum();
         //ShowHowSum();
-        //howBestSum();
+        //ShowBestSum();
+
+        ShowCanConstruct();
 
         Console.WriteLine("Done.");
         Console.ReadKey();
@@ -94,5 +99,22 @@ public class Program
         };
 
         bestSum.Calculate();
+    }
+
+    private static void ShowCanConstruct()
+    {
+        List<ConstructString> strings = new()
+        {
+            new("abcdef", new[] { "ab", "abc", "cd", "def", "abcd" }),
+            new("skateboard", new[] { "bo", "rd", "ate", "t", "ska", "sk", "boar" }),
+            new("enterapotentpot", new[] { "a", "p", "ent", "enter", "ot", "o", "t" }),
+            new("eeeeeeeeeeeeeeeeeeeeeeeeeef", new[] { "e", "ee", "eee", "eeee", "eeeee", "eeeeee" })
+        };
+        CanConstructProcessor canSum = new()
+        {
+            ConstructStrings = strings
+        };
+
+        canSum.Calculate();
     }
 }

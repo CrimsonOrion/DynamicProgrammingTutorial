@@ -1,6 +1,8 @@
-﻿using System.Diagnostics;
+﻿using DynamicProgramming.Models;
 
-namespace DynamicProgramming;
+using System.Diagnostics;
+
+namespace DynamicProgramming.Processors;
 public class BestSumProcessor
 {
     private static int _steps1 = 0;

@@ -1,6 +1,7 @@
-﻿using System.Diagnostics;
+﻿
+using System.Diagnostics;
 
-namespace DynamicProgramming;
+namespace DynamicProgramming.Processors;
 public class FibonacciProcessor
 {
     private static int _steps1 = 0;

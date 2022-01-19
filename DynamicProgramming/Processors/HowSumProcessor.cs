@@ -1,8 +1,10 @@
-﻿using System.Diagnostics;
+﻿using DynamicProgramming.Models;
 
-namespace DynamicProgramming;
+using System.Diagnostics;
+
+namespace DynamicProgramming.Processors;
 public class HowSumProcessor
-{   
+{
     private static int _steps1 = 0;
     private static int _steps2 = 0;
 
@@ -58,7 +60,7 @@ public class HowSumProcessor
 
     private static List<int>? HowSum2(SumNumbers n, Dictionary<long, List<int>?> memo)
     {
-        
+
         if (memo.ContainsKey(n.TargetSum))
         {
             return memo[n.TargetSum];
